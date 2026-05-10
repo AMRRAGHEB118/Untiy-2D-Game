@@ -36,6 +36,10 @@ public class PlayerMovement : MonoBehaviour
     void Attack()
     {
         anim.SetTrigger("Attack");
+        
+        // Play attack sound
+        AudioSource audio = GetComponent<AudioSource>();
+        if (audio != null) audio.Play();
 
         Collider2D[] hitEnemies = Physics2D.OverlapCircleAll(attackPoint.position, attackRange, enemyLayers);
 

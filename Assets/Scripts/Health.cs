@@ -27,6 +27,10 @@ public class Health : MonoBehaviour
         if (healthSlider != null) healthSlider.value = currentHealth;
 
         if (anim != null) anim.SetTrigger("TakeHit");
+        
+        // Play hit sound if available
+        AudioSource audio = GetComponent<AudioSource>();
+        if (audio != null) audio.Play();
 
         if (currentHealth <= 0) Die();
     }
@@ -38,8 +42,14 @@ public class Health : MonoBehaviour
         if (anim != null) anim.SetTrigger("Death");
 
         if (gameObject.CompareTag("Player"))
+        {
             GetComponent<PlayerMovement>().OnDeath();
+            if (GameManager.instance != null) GameManager.instance.GameOver();
+        }
         else
+        {
+            if (GameManager.instance != null) GameManager.instance.AddScore(100);
             Destroy(gameObject, 2f);
+        }
     }
 }
